@@ -8,6 +8,8 @@ def main():
     """
         --securable
             Securable that needs to be materialized
+        --hadoop
+            Hadoop configuration to set
         --location
             The location the materialization will be stored
     """
@@ -27,11 +29,22 @@ def main():
 
     user_namespace_initializer = UserNamespaceInitializer.getOrCreate()
     spark = user_namespace_initializer.namespace_globals["spark"]
-    securable = args["securable"]
+
     # Read the securable
+    securable = args["securable"]
     data_frame = spark.read.table(securable)
+
+    # Set Hadoop configuration for writing the materialization
+    if "hadoop" in args:
+        for conf in args["hadoop"]:
+            split = conf.split("=", 1)
+            key = split[0]
+            val = split[1]
+            spark.conf.set(key, val)
+
     # Save the materialization
-    data_frame.write.format("delta").save(args["location"])
+    location = args["location"]
+    data_frame.write.format("delta").save(location)
     
 if __name__ == '__main__':
     main()
