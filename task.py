@@ -8,7 +8,9 @@ def main():
     """
         --securable
             Securable that needs to be materialized
-        --filter_clause
+        --projection_selection_clause
+            Selects specific columns from the securable
+        --row_selection_clause
             Predicates pushdown clause used to filter the rows
         --hadoop
             Hadoop configuration to set
@@ -36,9 +38,13 @@ def main():
     securable = args["securable"]
     data_frame = spark.read.table(securable)
 
-    # Apply filter if the filter clause is specified
-    if "filter_clause" in args:
-        data_frame = data_frame.filter(args["filter_clause"])
+    # Apply projection selection clause if specified
+    if "projection_selection_clause" in args:
+        data_frame = data_frame.select(args["projection_selection_clause"])
+
+    # Apply row selection clause if specified
+    if "row_selection_clause" in args:
+        data_frame = data_frame.filter(args["row_selection_clause"])
     
     # Set Hadoop configuration for writing the materialization
     if "hadoop" in args:
