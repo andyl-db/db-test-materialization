@@ -8,8 +8,8 @@ def main():
     """
         --securable
             Securable that needs to be materialized
-        --predicates
-            Predicates JSON to push down
+        --filter_clause
+            Predicates pushdown clause used to filter the rows
         --hadoop
             Hadoop configuration to set
         --location
@@ -35,6 +35,11 @@ def main():
     # Read the securable
     securable = args["securable"]
     data_frame = spark.read.table(securable)
+    
+    # Apply filter if the filter clause is specified
+    if "filter_clause" in args:
+        data_frame = data_frame.filter(args["filter_clause"])
+
     data_frame.show()
     
 if __name__ == '__main__':
