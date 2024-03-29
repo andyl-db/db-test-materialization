@@ -21,8 +21,8 @@ def main():
             args[key].append(val)
         else:
             args[key] = val
-
-    dbfsutil.fs.rm(args["location"])
+    dbutils.fs.rm(args["location"])
+    print("Removed", args)
     
 if __name__ == '__main__':
     main()
