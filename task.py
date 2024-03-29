@@ -22,17 +22,25 @@ def main():
 
     # Read the securable
     securable = args["securable"]
+    print(f"Attempting to materialize {securable} to location")
+
+    print(f"Reading {securable}")
     data_frame = spark.read.table(securable)
 
     # Apply projection selection clause if specified
     if "projection_selection_clause" in args:
-        data_frame = data_frame.select(args["projection_selection_clause"])
+        projection_selection_clause = args["projection_selection_clause"]
+        print(f"Applying {projection_selection_clause} to dataframe")
+        data_frame = data_frame.select(projection_selection_clause)
 
     # Apply row selection clause if specified
     if "row_selection_clause" in args:
+        row_selection_clause = args["row_selection_clause"]
+        print(f"Applying {row_selection_clause} to dataframe")
         data_frame = data_frame.filter(args["row_selection_clause"])
 
     # Save the materialization
+    print("Saving materialization...")
     location = args["location"]
     data_frame.write.format("delta").save(location)
     

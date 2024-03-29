@@ -9,6 +9,7 @@ def main():
     It will then delete the specified materialization storage location.
     """
     args = parse_args()
+    print("Deleting materialization")
     dbutils.fs.rm(dir = args["location"], recurse = True)
     
 if __name__ == '__main__':
