@@ -21,8 +21,7 @@ def main():
             args[key].append(val)
         else:
             args[key] = val
-    dbutils.fs.rm(args["location"])
-    print("Removed", args)
+    dbutils.fs.rm(dir = args["location"], recurse = True)
     
 if __name__ == '__main__':
     main()
