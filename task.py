@@ -56,7 +56,7 @@ def main():
     print(dbutils.credentials.getCurrentCredentials())
 
     print("Print Spark conf")
-    print(spark.conf.getAll())
+    print(spark.conf.getAll)
 
     print(f"Reading {securable}")
     data_frame = spark.read.table(securable)
