@@ -28,6 +28,9 @@ def main():
     dbutils = user_namespace_initializer.namespace_globals["dbutils"]
     print(dbutils.credentials.getCurrentCredentials())
 
+    print("Print Spark conf")
+    print(spark.conf().getAll())
+
     print(f"Reading {securable}")
     data_frame = spark.read.table(securable)
 
