@@ -24,6 +24,10 @@ def main():
     securable = args["securable"]
     print(f"Attempting to materialize {securable} to location")
 
+    print("Reading credentials")
+    dbutils = user_namespace_initializer.namespace_globals["dbutils"]
+    print(dbutils.credentials.getCurrentCredentials())
+
     print(f"Reading {securable}")
     data_frame = spark.read.table(securable)
 
